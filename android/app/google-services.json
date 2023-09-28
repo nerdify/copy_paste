@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "399602322284",
+    "project_id": "fir-auth-f49a7",
+    "storage_bucket": "fir-auth-f49a7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:399602322284:android:df81bb7a28efa28d928149",
+        "android_client_info": {
+          "package_name": "com.example.firebase_auth_bloc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "399602322284-7tultfjrt8leoq4taarugn1896ej4sdj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUKYxEOsGbXi7nGCDVU_dSscHDyiau7gk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "399602322284-7tultfjrt8leoq4taarugn1896ej4sdj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "399602322284-7vvs4v4hfabd81i7r167pkok5q6cjdlj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.firebaseAuthBloc"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:399602322284:android:adea06d2f4e6c9fd928149",
+        "android_client_info": {
+          "package_name": "com.getnerdify.copy_paste"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "399602322284-7tultfjrt8leoq4taarugn1896ej4sdj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUKYxEOsGbXi7nGCDVU_dSscHDyiau7gk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "399602322284-7tultfjrt8leoq4taarugn1896ej4sdj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "399602322284-7vvs4v4hfabd81i7r167pkok5q6cjdlj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.firebaseAuthBloc"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
