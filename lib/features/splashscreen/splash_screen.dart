@@ -1,28 +1,31 @@
 import 'package:flutter/cupertino.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
-  @override
-  State<SplashScreen> createState() => _SplashScreenState();
-}
+  static const String routeName = '/splash';
 
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
+  static Route route() {
+    return CupertinoPageRoute(
+      settings: const RouteSettings(name: routeName),
+      builder: (context) => const SplashScreen(),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return const CupertinoPageScaffold(
       child: Center(
-        child: Text('Copy with Me App'),
+        child: Column(
+          children: [
+            CupertinoActivityIndicator(
+              radius: 20,
+              color: CupertinoColors.systemIndigo,
+            ),
+            SizedBox(height: 20),
+            Text('Loading...', style: TextStyle(fontSize: 20)),
+          ],
+        ),
       ),
     );
   }
