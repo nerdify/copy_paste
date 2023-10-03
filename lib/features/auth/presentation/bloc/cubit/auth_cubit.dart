@@ -1,93 +1,45 @@
 import 'dart:async';
 
 import 'package:copy_paste/features/auth/repository/auth_repository.dart';
-import 'package:equatable/equatable.dart';
+import 'package:copy_paste/main.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-part 'auth_state.dart';
+// Enum will all possible authentication states.
+enum AuthState {
+  initial,
+  signedOut,
+  signedIn,
+}
 
+// Extends Cubit and will emit states of type AuthState
 class AuthCubit extends Cubit<AuthState> {
-  final AuthRepositoryBase _authRepository;
-  late StreamSubscription _authSubscription;
+  // Get the injected AuthRepository
+  final AuthRepository _authRepository = getIt();
+  StreamSubscription? _authSubscription;
 
-  AuthCubit(this._authRepository) : super(AuthInitialState());
+  AuthCubit() : super(AuthState.initial);
 
   Future<void> init() async {
+    // Subscribe to listen for changes in the authentication state
+    await Future.delayed(const Duration(seconds: 1));
     _authSubscription =
         _authRepository.onAuthStateChanged.listen(_authStateChanged);
   }
 
-  void _authStateChanged(AuthUser? user) =>
-      user == null ? emit(AuthSignedOut()) : emit(AuthSignedIn(user));
-
-  // Funcion para iniciar sesion anonimamente
-  Future<void> signInAnonymously() =>
-      _signIn(_authRepository.singnInAnonymously());
-
-  // Funcion para iniciar sesion con Google
-  Future<void> signInWithGoogle() =>
-      _signIn(_authRepository.signInWithGoogle());
-
-  Future<void> _signIn(Future<AuthUser?> authUser) async {
-    try {
-      emit(AuthSigningIn());
-      final user = await authUser;
-
-      // Si el usuarios es nulo, que muestre el siguiente mensaje
-      if (user == null) {
-        emit(const AuthError('Unkown error,  try again later'));
-      } else {
-        emit(AuthSignedIn(user));
-      }
-    } catch (e) {
-      emit(AuthError('Error: ${e.toString()}'));
-    }
+  // Helper function that will emit the current authentication state
+  void _authStateChanged(String? userUID) {
+    userUID == null ? emit(AuthState.signedOut) : emit(AuthState.signedIn);
   }
 
-  // Funcion para cerrar sesion
+  // Sign-out and immediately emits signedOut state
   Future<void> signOut() async {
     await _authRepository.signOut();
-    emit(AuthSignedOut());
+    emit(AuthState.signedOut);
   }
 
-  // Cerramos el estado
   @override
   Future<void> close() {
-    _authSubscription.cancel();
+    _authSubscription?.cancel();
     return super.close();
   }
-}
-
-abstract class AuthEvent extends Equatable {
-  @override
-  List<Object> get props => [];
-}
-
-// Estdos de inicialización
-class AuthInitialState extends AuthState {}
-
-class AuthSignedOut extends AuthState {}
-
-// En este estado cuando mostramos un loadeded
-class AuthSigningIn extends AuthState {}
-
-// En este estado cuando aya un error
-class AuthError extends AuthState {
-  const AuthError(this.message);
-
-  final String message;
-
-  @override
-  List<Object> get props => [message];
-}
-
-// En este estado cuando el user ya este logeado
-
-class AuthSignedIn extends AuthState {
-  final AuthUser user;
-
-  const AuthSignedIn(this.user);
-
-  @override
-  List<Object> get props => [user];
 }
