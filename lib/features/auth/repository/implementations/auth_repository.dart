@@ -1,5 +1,6 @@
 import 'package:copy_paste/features/auth/repository/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthRepository extends AuthRepositoryBase {
@@ -43,7 +44,9 @@ class AuthRepository extends AuthRepositoryBase {
         await FirebaseAuth.instance.signInWithCredential(credential);
 
     if (authResult.user == null) {
-      print('Error:');
+      if (kDebugMode) {
+        print('Error:');
+      }
     }
 
     return _userFromFirebase(authResult.user);

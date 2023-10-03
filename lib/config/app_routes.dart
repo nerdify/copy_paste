@@ -2,7 +2,6 @@ import 'package:copy_paste/features/list_notes/presentation/list_notes_screen.da
 import 'package:copy_paste/features/splashscreen/intro_screen.dart';
 import 'package:copy_paste/features/splashscreen/splash_screen.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 
 class AppRoute {
   static Route onGenerateRoute(RouteSettings settings) {
@@ -20,7 +19,7 @@ class AppRoute {
   }
 
   static Route _errorRoute() {
-    return MaterialPageRoute(
+    return CupertinoPageRoute(
       settings: const RouteSettings(name: '/error'),
       builder: (_) => const CupertinoPageScaffold(
         child: Center(
