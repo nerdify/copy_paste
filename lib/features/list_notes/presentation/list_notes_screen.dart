@@ -3,6 +3,7 @@ import 'package:copy_paste/features/auth/presentation/bloc/cubit/auth_cubit.dart
 import 'package:copy_paste/features/auth/presentation/bloc/cubit/edit_my_notes_cubit.dart';
 import 'package:copy_paste/features/auth/presentation/bloc/cubit/home_cubit.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -91,36 +92,44 @@ class ListNotesScreen extends StatelessWidget {
                       },
                     );
                   },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 8,
-                    ),
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                        border: Border.fromBorderSide(
-                          BorderSide(
-                            color: CupertinoColors.systemGrey,
-                          ),
-                        ),
+                  child: GestureDetector(
+                    onLongPress: () {
+                      Clipboard.setData(
+                        ClipboardData(text: myNote.description),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 8,
                       ),
-                      child: CupertinoListTile(
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            Routes.editNote,
-                            arguments: myNote,
-                          );
-                        },
-                        title: Text(
-                          myNote.title,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          border: Border.fromBorderSide(
+                            BorderSide(
+                              color: CupertinoColors.systemGrey,
+                            ),
                           ),
                         ),
-                        trailing: const Icon(CupertinoIcons.right_chevron),
+                        child: CupertinoListTile(
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              Routes.editNote,
+                              arguments: myNote,
+                            );
+                          },
+                          leading: const Icon(CupertinoIcons.doc_text),
+                          title: Text(
+                            myNote.title,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          trailing: const Icon(CupertinoIcons.right_chevron),
+                        ),
                       ),
                     ),
                   ),

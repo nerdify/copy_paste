@@ -35,13 +35,15 @@ class _IntroPager extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PageIndicatorContainer(
+      padding: const EdgeInsets.only(bottom: 40),
       align: IndicatorAlign.bottom,
+      shape: IndicatorShape.roundRectangleShape(size: const Size.square(8)),
       length: 4,
-      indicatorSpace: 12,
+      indicatorSpace: 10,
       indicatorColor: CupertinoColors.systemGrey,
       indicatorSelectorColor: CupertinoColors.black,
       child: PageView(
-        children: <Widget>[
+        children: [
           _DescriptionPage(
             text: exampleText,
             imagePath: 'assets/intro_1.png',
@@ -72,29 +74,26 @@ class _DescriptionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(24.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Image.asset(
-            imagePath,
-            width: 200,
-            height: 200,
-          ),
-          Expanded(
-            child: Container(
-              alignment: Alignment.center,
-              child: Text(
-                text,
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                    fontSize: 24.0, fontWeight: FontWeight.bold),
-              ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Image.asset(
+          imagePath,
+          width: 200,
+          height: 200,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Text(
+            text,
+            textAlign: TextAlign.center,
+            style: const TextStyle(
+              fontSize: 18,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
