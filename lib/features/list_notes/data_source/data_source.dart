@@ -14,6 +14,7 @@ class FirebaseDataSource {
   }
 
   FirebaseFirestore get firestore => FirebaseFirestore.instance;
+
   FirebaseStorage get storage => FirebaseStorage.instance;
 
   // Generates and returns a new firestore id
@@ -33,20 +34,20 @@ class FirebaseDataSource {
   // it will create or update the image in Firebase Storage
   Future<void> saveMyNotes(MyNotes myNotes, File? image) async {
     final ref = firestore.doc('user/${currentUser.uid}/myUsers/${myNotes.id}');
-    if (image != null) {
-      // Delete current image if exists
-      if (myNotes.image != null) {
-        await storage.refFromURL(myNotes.image!).delete();
-      }
-
-      final fileName = image.uri.pathSegments.last;
-      final imagePath = '${currentUser.uid}/myUsersImages/$fileName';
-
-      final storageRef = storage.ref(imagePath);
-      await storageRef.putFile(image);
-      final url = await storageRef.getDownloadURL();
-      myNotes = myNotes.copyWith(image: url);
-    }
+    // if (image != null) {
+    //   // Delete current image if exists
+    //   if (myNotes.image != null) {
+    //     await storage.refFromURL(myNotes.image!).delete();
+    //   }
+    //
+    //   final fileName = image.uri.pathSegments.last;
+    //   final imagePath = '${currentUser.uid}/myUsersImages/$fileName';
+    //
+    //   final storageRef = storage.ref(imagePath);
+    //   await storageRef.putFile(image);
+    //   final url = await storageRef.getDownloadURL();
+    //   myNotes = myNotes.copyWith(image: url);
+    // }
     await ref.set(myNotes.toFirebaseMap(), SetOptions(merge: true));
   }
 
@@ -56,9 +57,9 @@ class FirebaseDataSource {
     final ref = firestore.doc('user/${currentUser.uid}/myUsers/${myUser.id}');
 
     // Delete current image if exists
-    if (myUser.image != null) {
-      await storage.refFromURL(myUser.image!).delete();
-    }
+    // if (myUser.image != null) {
+    //   await storage.refFromURL(myUser.image!).delete();
+    // }
     await ref.delete();
   }
 }

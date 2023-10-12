@@ -26,15 +26,13 @@ class EditMyUserCubit extends Cubit<EditMyUserState> {
   // This function will be called from the presentation layer
   // when the user has to be saved
   Future<void> saveMyUser(
-    String title,
     String description,
   ) async {
     emit(state.copyWith(isLoading: true));
 
     // If we are editing, we use the existing id. Otherwise, create a new one.
     final uid = _toEdit?.id ?? _userRepository.newId();
-    _toEdit = MyNotes(
-        id: uid, title: title, description: description, image: _toEdit?.image);
+    _toEdit = MyNotes(id: uid, description: description);
 
     await _userRepository.saveMyUser(_toEdit!, state.pickedImage);
     emit(state.copyWith(isDone: true));

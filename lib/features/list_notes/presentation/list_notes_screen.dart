@@ -5,6 +5,7 @@ import 'package:copy_paste/features/auth/presentation/bloc/cubit/home_cubit.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ListNotesScreen extends StatelessWidget {
   const ListNotesScreen({super.key});
@@ -16,41 +17,40 @@ class ListNotesScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('List Copy Paste'),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () {
-              context.read<AuthCubit>().signOut();
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () {
-              Navigator.pushNamed(context, Routes.editNote);
+          PopupMenuButton(
+            itemBuilder: (context) {
+              return [
+                PopupMenuItem(
+                  child: TextButton(
+                    child: const Text('Add Note'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, Routes.editNote);
+                    },
+                  ),
+                ),
+
+                PopupMenuItem(
+                  child: TextButton(
+                    child: const Text('Add Image Note'),
+                    onPressed: () {},
+                  ),
+                ),
+
+                ///
+                PopupMenuItem(
+                  child: TextButton(
+                    child: const Text('Logout'),
+                    onPressed: () {
+                      context.read<AuthCubit>().signOut();
+                    },
+                  ),
+                ),
+              ];
             },
           ),
         ],
       ),
-      // navigationBar: CupertinoNavigationBar(
-      //   middle: const Text('List Copy Paste'),
-      //   trailing: Row(
-      //     mainAxisSize: MainAxisSize.min,
-      //     children: [
-      //       CupertinoButton(
-      //         child: const Icon(
-      //             CupertinoIcons.arrowshape_turn_up_right_circle_fill),
-      //         onPressed: () {
-      //           context.read<AuthCubit>().signOut();
-      //         },
-      //       ),
-      //       CupertinoButton(
-      //         child: const Icon(CupertinoIcons.add),
-      //         onPressed: () {
-      //           Navigator.pushNamed(context, Routes.editNote);
-      //         },
-      //       ),
-      //     ],
-      //   ),
-      // ),
       body: MultiBlocProvider(
         providers: [
           BlocProvider(
@@ -67,82 +67,77 @@ class ListNotesScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 final myNote = state.myNotes.elementAt(index);
 
-                return Dismissible(
-                  key: Key(myNote.id),
-                  onDismissed: (direction) {
-                    context.read<EditMyUserCubit>().deleteMyUser();
-                  },
-                  direction: DismissDirection.endToStart,
-                  background: Container(
-                    alignment: Alignment.centerRight,
-                    color: Colors.red,
-                    padding: const EdgeInsets.only(right: 24),
-                    child: const Icon(
-                      Icons.delete,
-                      color: Colors.white,
-                    ),
-                  ),
-                  confirmDismiss: (direction) async {
-                    return await showAdaptiveDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: const Text('Delete Copy Paste'),
-                          content: const Text(
-                              'Are you sure you want to delete this note?'),
-                          actions: [
-                            TextButton(
-                              child: const Text('Cancel'),
-                              onPressed: () {
-                                Navigator.pop(context, false);
-                              },
-                            ),
-                            TextButton(
-                              child: const Text('Delete'),
-                              onPressed: () {
-                                Navigator.pop(context, true);
-                              },
-                            ),
-                          ],
-                        );
-                      },
+                return GestureDetector(
+                  onLongPress: () {
+                    Clipboard.setData(
+                      ClipboardData(text: myNote.description),
                     );
                   },
-                  child: GestureDetector(
-                    onLongPress: () {
-                      Clipboard.setData(
-                        ClipboardData(text: myNote.description),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 24,
-                        vertical: 8,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                      child: Container(
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          border: Border.fromBorderSide(
-                            BorderSide(color: Colors.grey),
+                      shadowColor: Colors.grey.shade200,
+                      child: ListTile(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            Routes.editNote,
+                            arguments: myNote,
+                          );
+                        },
+                        title: Text(
+                          myNote.description,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                        child: ListTile(
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              Routes.editNote,
-                              arguments: myNote,
+                        trailing: IconButton(
+                          onPressed: () {
+                            showModalBottomSheet(
+                              elevation: 0,
+                              showDragHandle: true,
+                              context: context,
+                              builder: (context) {
+                                return Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    /// Edit
+                                    ListTile(
+                                      trailing: const Icon(Icons.edit),
+                                      title: const Text('Edit'),
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                        Navigator.pushNamed(
+                                            context, Routes.editNote,
+                                            arguments: myNote);
+                                      },
+                                    ),
+
+                                    /// Share
+                                    ListTile(
+                                      trailing: const Icon(Icons.share),
+                                      title: const Text('Share'),
+                                      onTap: () {
+                                        Share.share(myNote.description);
+                                      },
+                                    ),
+
+                                    /// Delete
+                                    ListTile(
+                                      trailing: const Icon(Icons.delete),
+                                      title: const Text('Delete'),
+                                      onTap: () {},
+                                    ),
+                                  ],
+                                );
+                              },
                             );
                           },
-                          leading: const Icon(Icons.book_online_outlined),
-                          title: Text(
-                            myNote.title,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          trailing: const Icon(Icons.arrow_forward_outlined),
+                          icon: const Icon(Icons.more_vert),
                         ),
                       ),
                     ),
