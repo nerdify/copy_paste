@@ -2,7 +2,6 @@ import 'package:copy_paste/config/app_routes.dart';
 import 'package:copy_paste/features/auth/presentation/bloc/cubit/auth_cubit.dart';
 import 'package:copy_paste/features/auth/presentation/bloc/cubit/edit_my_notes_cubit.dart';
 import 'package:copy_paste/features/auth/presentation/bloc/cubit/home_cubit.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,30 +11,47 @@ class ListNotesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoPageScaffold(
+    return Scaffold(
       resizeToAvoidBottomInset: false,
-      navigationBar: CupertinoNavigationBar(
-        middle: const Text('List Copy Paste'),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CupertinoButton(
-              child: const Icon(
-                  CupertinoIcons.arrowshape_turn_up_right_circle_fill),
-              onPressed: () {
-                context.read<AuthCubit>().signOut();
-              },
-            ),
-            CupertinoButton(
-              child: const Icon(CupertinoIcons.add),
-              onPressed: () {
-                Navigator.pushNamed(context, Routes.editNote);
-              },
-            ),
-          ],
-        ),
+      appBar: AppBar(
+        title: const Text('List Copy Paste'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              context.read<AuthCubit>().signOut();
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () {
+              Navigator.pushNamed(context, Routes.editNote);
+            },
+          ),
+        ],
       ),
-      child: MultiBlocProvider(
+      // navigationBar: CupertinoNavigationBar(
+      //   middle: const Text('List Copy Paste'),
+      //   trailing: Row(
+      //     mainAxisSize: MainAxisSize.min,
+      //     children: [
+      //       CupertinoButton(
+      //         child: const Icon(
+      //             CupertinoIcons.arrowshape_turn_up_right_circle_fill),
+      //         onPressed: () {
+      //           context.read<AuthCubit>().signOut();
+      //         },
+      //       ),
+      //       CupertinoButton(
+      //         child: const Icon(CupertinoIcons.add),
+      //         onPressed: () {
+      //           Navigator.pushNamed(context, Routes.editNote);
+      //         },
+      //       ),
+      //     ],
+      //   ),
+      // ),
+      body: MultiBlocProvider(
         providers: [
           BlocProvider(
             create: (context) => EditMyUserCubit(null),
@@ -59,29 +75,29 @@ class ListNotesScreen extends StatelessWidget {
                   direction: DismissDirection.endToStart,
                   background: Container(
                     alignment: Alignment.centerRight,
-                    color: CupertinoColors.systemRed,
+                    color: Colors.red,
                     padding: const EdgeInsets.only(right: 24),
                     child: const Icon(
-                      CupertinoIcons.delete,
-                      color: CupertinoColors.white,
+                      Icons.delete,
+                      color: Colors.white,
                     ),
                   ),
                   confirmDismiss: (direction) async {
-                    return await showCupertinoDialog<bool>(
+                    return await showAdaptiveDialog(
                       context: context,
                       builder: (context) {
-                        return CupertinoAlertDialog(
+                        return AlertDialog(
                           title: const Text('Delete Copy Paste'),
                           content: const Text(
                               'Are you sure you want to delete this note?'),
                           actions: [
-                            CupertinoDialogAction(
+                            TextButton(
                               child: const Text('Cancel'),
                               onPressed: () {
                                 Navigator.pop(context, false);
                               },
                             ),
-                            CupertinoDialogAction(
+                            TextButton(
                               child: const Text('Delete'),
                               onPressed: () {
                                 Navigator.pop(context, true);
@@ -107,12 +123,10 @@ class ListNotesScreen extends StatelessWidget {
                         decoration: const BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
                           border: Border.fromBorderSide(
-                            BorderSide(
-                              color: CupertinoColors.systemGrey,
-                            ),
+                            BorderSide(color: Colors.grey),
                           ),
                         ),
-                        child: CupertinoListTile(
+                        child: ListTile(
                           onTap: () {
                             Navigator.pushNamed(
                               context,
@@ -120,7 +134,7 @@ class ListNotesScreen extends StatelessWidget {
                               arguments: myNote,
                             );
                           },
-                          leading: const Icon(CupertinoIcons.doc_text),
+                          leading: const Icon(Icons.book_online_outlined),
                           title: Text(
                             myNote.title,
                             style: const TextStyle(
@@ -128,7 +142,7 @@ class ListNotesScreen extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          trailing: const Icon(CupertinoIcons.right_chevron),
+                          trailing: const Icon(Icons.arrow_forward_outlined),
                         ),
                       ),
                     ),

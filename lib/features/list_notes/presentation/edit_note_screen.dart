@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:copy_paste/features/auth/presentation/bloc/cubit/edit_my_notes_cubit.dart';
 import 'package:copy_paste/features/list_notes/model/my_notes.dart';
 import 'package:copy_paste/features/splashscreen/widgets/custom_image.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -16,11 +16,11 @@ class EditNoteScreen extends StatelessWidget {
 
     return BlocProvider(
       create: (context) => EditMyUserCubit(noteToEdit),
-      child: CupertinoPageScaffold(
-        navigationBar: const CupertinoNavigationBar(
-          middle: Text('Edit Note'),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Edit Note'),
         ),
-        child: BlocConsumer<EditMyUserCubit, EditMyUserState>(
+        body: BlocConsumer<EditMyUserCubit, EditMyUserState>(
           listener: (context, state) {
             if (state.isDone) {
               // When isDone is true we navigate to the previous screen/route
@@ -37,9 +37,9 @@ class EditNoteScreen extends StatelessWidget {
                 ),
                 if (state.isLoading)
                   Container(
-                    color: CupertinoColors.black.withOpacity(0.5),
+                    color: Colors.black.withOpacity(0.5),
                     child: const Center(
-                      child: CupertinoActivityIndicator(),
+                      child: CircularProgressIndicator(),
                     ),
                   ),
               ],
@@ -109,39 +109,38 @@ class _MyUserSectionState extends State<_MyNoteSection> {
             ),
 
             const SizedBox(height: 50),
-            CupertinoTextField(
+            TextFormField(
               style: const TextStyle(fontSize: 18),
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
               key: const Key('Name'),
               controller: _titleController,
               maxLines: 2,
-              decoration: BoxDecoration(
-                border: Border.all(color: CupertinoColors.systemGrey),
-                borderRadius: BorderRadius.circular(8),
-              ),
+              // decoration: BoxDecoration(
+              //   border: Border.all(color: CupertinoColors.systemGrey),
+              //   borderRadius: BorderRadius.circular(8),
+              // ),
             ),
 
             const SizedBox(height: 10),
-            CupertinoTextField(
+            TextFormField(
               style: const TextStyle(fontSize: 18),
-              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
               key: const Key('Last Name'),
               controller: _descriptionNameController,
               maxLines: 10,
-              decoration: BoxDecoration(
-                border: Border.all(color: CupertinoColors.systemGrey),
-                borderRadius: BorderRadius.circular(8),
-              ),
             ),
 
             const SizedBox(height: 15),
 
             // When isSaving is true we disable the button
-            CupertinoButton(
+            FilledButton(
+              style: FilledButton.styleFrom(
+                backgroundColor: Colors.purple.shade300,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
               key: const Key(
                 'Save',
               ),
-              color: CupertinoColors.activeBlue,
               onPressed: widget.isSaving
                   ? null
                   : () {

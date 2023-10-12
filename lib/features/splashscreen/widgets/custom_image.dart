@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CustomImage extends StatelessWidget {
@@ -28,10 +27,10 @@ class CustomImage extends StatelessWidget {
         imageUrl: imageUrl!,
         progressIndicatorBuilder: (_, __, progress) =>
             CircularProgressIndicator.adaptive(value: progress.progress),
-        errorWidget: (_, __, ___) => const Icon(CupertinoIcons.building_2_fill),
+        errorWidget: (_, __, ___) => const Icon(Icons.build),
         fit: boxFit,
       );
     }
-    return Container(color: CupertinoColors.systemGrey);
+    return Container(color: Colors.grey);
   }
 }

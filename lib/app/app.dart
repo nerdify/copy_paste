@@ -1,7 +1,6 @@
 import 'package:copy_paste/config/app_routes.dart';
 import 'package:copy_paste/features/auth/presentation/bloc/cubit/auth_cubit.dart';
-
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -22,19 +21,16 @@ class MyApp extends StatelessWidget {
               ?.pushNamedAndRemoveUntil(Routes.home, (r) => false);
         }
       },
-      child: CupertinoApp(
+      child: MaterialApp(
         navigatorKey: _navigatorKey,
         title: 'Copy with Me App',
         onGenerateRoute: Routes.routes,
-        theme: CupertinoThemeData(
+        theme: ThemeData(
+          useMaterial3: true,
           brightness: Brightness.light,
-          primaryColor: CupertinoColors.systemPurple,
-          scaffoldBackgroundColor: CupertinoColors.white,
-          textTheme: CupertinoTextThemeData(
-            textStyle: GoogleFonts.redHatDisplay()
-                .copyWith(color: CupertinoColors.black),
-          ),
-          applyThemeToAll: true,
+          primaryColor: Colors.purple,
+          scaffoldBackgroundColor: Colors.white,
+          textTheme: GoogleFonts.redHatDisplayTextTheme(),
         ),
       ),
     );
