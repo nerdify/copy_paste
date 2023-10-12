@@ -7,7 +7,7 @@ import 'package:copy_paste/features/auth/repository/my_notes_repository.dart';
 import 'package:copy_paste/features/list_notes/data_source/data_source.dart';
 import 'package:copy_paste/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:get_it/get_it.dart';

@@ -18,7 +18,6 @@ dependencies:
   firebase_database: ^10.2.6
   firebase_storage: ^11.2.7
   firebase_ui_auth: ^1.8.0
-  firebase_ui_oauth_facebook: ^1.2.11
   firebase_ui_oauth_google: ^1.2.11
   flutter:
     sdk: flutter
@@ -27,7 +26,6 @@ dependencies:
   google_fonts: ^6.1.0
   image_picker: ^1.0.4
   intl: ^0.18.1
-  page_indicator: ^0.4.1
 
 dev_dependencies:
   flutter_lints: ^2.0.0
