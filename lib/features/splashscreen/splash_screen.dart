@@ -8,6 +8,7 @@ class SplashScreen extends StatelessWidget {
     return const CupertinoPageScaffold(
       child: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CupertinoActivityIndicator(
               radius: 20,
