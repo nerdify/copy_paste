@@ -14,6 +14,23 @@ class ListNotesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.pushNamed(context, Routes.editNote);
+        },
+        label: TextButton(
+          child: const Row(
+            children: [
+              Icon(Icons.add),
+              SizedBox(width: 8),
+              Text('Add Note'),
+            ],
+          ),
+          onPressed: () {
+            Navigator.pushNamed(context, Routes.editNote);
+          },
+        ),
+      ),
       appBar: AppBar(
         title: const Text('List Copy Paste'),
         actions: [

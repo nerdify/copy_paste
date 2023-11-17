@@ -86,14 +86,20 @@ class _MyUserSectionState extends State<_MyNoteSection> {
             controller: _descriptionNameController,
             maxLines: 3,
             decoration: const InputDecoration(
+              alignLabelWithHint: true,
+              floatingLabelStyle: TextStyle(color: Colors.purple),
+              labelStyle: TextStyle(
+                leadingDistribution: TextLeadingDistribution.proportional,
+                decoration: TextDecoration.none,
+              ),
               labelText: 'Description',
-              border: OutlineInputBorder(),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
             ),
           ),
-
           const SizedBox(height: 16),
-          Spacer(),
-          // When isSaving is true we disable the button
+          const Spacer(),
           SizedBox(
             width: double.infinity,
             height: 50,
