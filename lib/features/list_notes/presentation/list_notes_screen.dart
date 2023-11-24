@@ -5,6 +5,7 @@ import 'package:copy_paste/features/auth/presentation/bloc/cubit/home_cubit.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ListNotesScreen extends StatelessWidget {
@@ -14,23 +15,59 @@ class ListNotesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.pushNamed(context, Routes.editNote);
-        },
-        label: TextButton(
-          child: const Row(
-            children: [
-              Icon(Icons.add),
-              SizedBox(width: 8),
-              Text('Add Note'),
-            ],
-          ),
-          onPressed: () {
-            Navigator.pushNamed(context, Routes.editNote);
-          },
+      floatingActionButton: SpeedDial(
+        animatedIcon: AnimatedIcons.menu_close,
+        animatedIconTheme: const IconThemeData(
+          size: 22,
+          color: Colors.white,
         ),
+        backgroundColor: Colors.purple.shade300,
+        visible: true,
+        curve: Curves.bounceIn,
+        children: [
+          SpeedDialChild(
+            child: const Icon(Icons.add, color: Colors.white),
+            backgroundColor: Colors.purple.shade300,
+            onTap: () {
+              Navigator.pushNamed(context, Routes.editNote);
+            },
+            label: 'Add Note',
+            labelStyle: const TextStyle(
+              fontWeight: FontWeight.w500,
+              color: Colors.white,
+              fontSize: 16.0,
+            ),
+            labelBackgroundColor: Colors.purple.shade300,
+          ),
+          SpeedDialChild(
+            child: const Icon(Icons.add_a_photo, color: Colors.white),
+            backgroundColor: Colors.purple.shade300,
+            onTap: () {},
+            label: 'Add Image Note',
+            labelStyle: const TextStyle(
+              fontWeight: FontWeight.w500,
+              color: Colors.white,
+              fontSize: 16.0,
+            ),
+            labelBackgroundColor: Colors.purple.shade300,
+          ),
+          SpeedDialChild(
+            child: const Icon(Icons.logout, color: Colors.white),
+            backgroundColor: Colors.purple.shade300,
+            onTap: () {
+              context.read<AuthCubit>().signOut();
+            },
+            label: 'Logout',
+            labelStyle: const TextStyle(
+              fontWeight: FontWeight.w500,
+              color: Colors.white,
+              fontSize: 16,
+            ),
+            labelBackgroundColor: Colors.purple.shade300,
+          ),
+        ],
       ),
+
       appBar: AppBar(
         title: const Text('List Copy Paste'),
         actions: [
