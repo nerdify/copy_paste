@@ -16,6 +16,7 @@ class ListNotesScreen extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       floatingActionButton: SpeedDial(
+        elevation: 5,
         animatedIcon: AnimatedIcons.menu_close,
         animatedIconTheme: const IconThemeData(
           size: 22,
@@ -42,7 +43,9 @@ class ListNotesScreen extends StatelessWidget {
           SpeedDialChild(
             child: const Icon(Icons.add_a_photo, color: Colors.white),
             backgroundColor: Colors.purple.shade300,
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, Routes.editNoteImage);
+            },
             label: 'Add Image Note',
             labelStyle: const TextStyle(
               fontWeight: FontWeight.w500,
@@ -67,43 +70,9 @@ class ListNotesScreen extends StatelessWidget {
           ),
         ],
       ),
-
       appBar: AppBar(
-        title: const Text('List Copy Paste'),
-        actions: [
-          PopupMenuButton(
-            itemBuilder: (context) {
-              return [
-                PopupMenuItem(
-                  child: TextButton(
-                    child: const Text('Add Note'),
-                    onPressed: () {
-                      Navigator.pop(context);
-                      Navigator.pushNamed(context, Routes.editNote);
-                    },
-                  ),
-                ),
-
-                PopupMenuItem(
-                  child: TextButton(
-                    child: const Text('Add Image Note'),
-                    onPressed: () {},
-                  ),
-                ),
-
-                ///
-                PopupMenuItem(
-                  child: TextButton(
-                    child: const Text('Logout'),
-                    onPressed: () {
-                      context.read<AuthCubit>().signOut();
-                    },
-                  ),
-                ),
-              ];
-            },
-          ),
-        ],
+        title: const Text('My Notes'),
+        centerTitle: true,
       ),
       body: MultiBlocProvider(
         providers: [
@@ -147,7 +116,9 @@ class ListNotesScreen extends StatelessWidget {
                           style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
+                            overflow: TextOverflow.ellipsis,
                           ),
+                          maxLines: 2,
                         ),
                         trailing: IconButton(
                           onPressed: () {
