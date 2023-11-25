@@ -12,7 +12,7 @@ class EditNoteImageScreen extends StatefulWidget {
 }
 
 class _EditNoteImageScreenState extends State<EditNoteImageScreen> {
-  Uint8List? _image;
+  Uint8List? image;
   File? selectedIMage;
 
   @override
@@ -21,25 +21,38 @@ class _EditNoteImageScreenState extends State<EditNoteImageScreen> {
       appBar: AppBar(
         title: const Text('Edit Note Image'),
       ),
-      body: Center(
-        child: Stack(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _image != null
-                ? CircleAvatar(
-                    radius: 100, backgroundImage: MemoryImage(_image!))
-                : const CircleAvatar(
-                    radius: 100,
-                    backgroundImage: NetworkImage(
-                        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"),
-                  ),
-            Positioned(
-              bottom: -0,
-              left: 140,
-              child: IconButton(
+            SizedBox(
+              width: double.infinity,
+              height: 300,
+              child: selectedIMage != null
+                  ? CircleAvatar(
+                      backgroundImage: FileImage(selectedIMage!),
+                      radius: 100,
+                    )
+                  : GestureDetector(
+                      onTap: () {
+                        showImagePickerOption(context);
+                      },
+                      child: const Icon(
+                        Icons.add_a_photo,
+                        size: 100,
+                      ),
+                    ),
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: ElevatedButton(
                 onPressed: () {
-                  showImagePickerOption(context);
+                  Navigator.pop(context, selectedIMage);
                 },
-                icon: const Icon(Icons.add_a_photo),
+                child: const Text("Save"),
               ),
             )
           ],
@@ -50,7 +63,8 @@ class _EditNoteImageScreenState extends State<EditNoteImageScreen> {
 
   void showImagePickerOption(BuildContext context) {
     showModalBottomSheet(
-      backgroundColor: Colors.deepOrangeAccent.withOpacity(0.2),
+      backgroundColor: Colors.deepOrangeAccent,
+      showDragHandle: true,
       context: context,
       builder: (builder) {
         return Padding(
@@ -111,7 +125,7 @@ class _EditNoteImageScreenState extends State<EditNoteImageScreen> {
     if (returnImage == null) return;
     setState(() {
       selectedIMage = File(returnImage.path);
-      _image = File(returnImage.path).readAsBytesSync();
+      image = File(returnImage.path).readAsBytesSync();
     });
     Navigator.of(context).pop(); //close the model sheet
   }
@@ -123,7 +137,7 @@ class _EditNoteImageScreenState extends State<EditNoteImageScreen> {
     if (returnImage == null) return;
     setState(() {
       selectedIMage = File(returnImage.path);
-      _image = File(returnImage.path).readAsBytesSync();
+      image = File(returnImage.path).readAsBytesSync();
     });
     Navigator.of(context).pop();
   }
